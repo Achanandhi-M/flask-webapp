@@ -1,10 +1,17 @@
-from flask import Flask,request,render_template,session,redirect,url_for
+from flask import Flask,request,render_template,session,redirect,url_for,jsonify
 from flask_session import Session
+
 app=Flask(__name__)
+
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-app.secret_key = ''
+
+def calculate_bill(name,presentunit,previousunit):
+    total_unit=presentunit-previousunit
+    total_amount=total_unit*10
+    return total_unit, total_amount
+
 
 @app.route('/',methods=['GET','POST'])
 def login():
@@ -20,36 +27,26 @@ def login():
 
     return render_template("index.html")
 
-@app.route('/bill',methods=['GET'])
+@app.route('/bill',methods=['GET','POST'])
 
 def bill():
-    if 'username' in session:
-        name=session['username']
-        if name=='John':
-            presentunit=200
-            previousunit=100
-            totalunit=presentunit-previousunit
-            amountpaid=False
-            if amountpaid==False:
-                return 'Please Pay the Amount for ' + str(totalunit) + 'Units'
-        elif name=='Bob':
-            presentunit=200
-            previousunit=100
-            totalunit=presentunit-previousunit
-            amountpaid=True
-            if amountpaid==True:
-                return 'No due for this Amount '
-        elif name=='Jack':
-            presentunit=200
-            previousunit=50
-            totalunit=presentunit-previousunit
-            amountpaid=False
-            if amountpaid==False:
-                return 'Please Pay the Amount for ' + str(totalunit) + ' Units '
-        else:
-            return 'Error'
-    else:
-        return redirect(url_for('login'))
+    if request.method =='POST':
+        if 'username' in session:
+            name=session['username']
+            if name=='John':
+              presentunit=int(request.form.get("Present"))
+              previousunit=int(request.form.get("Previous"))
+              total_unit, total_amount=calculate_bill(name,presentunit,previousunit)
+              return jsonify({
+                "message": "Success",
+                "user": name,
+                "total_units_consumed": total_unit,
+                "total_amount_rupees": total_amount
+            })
+        return jsonify({"message": "Error"})
+    return render_template("response.html")
+
+
 
 if __name__=='__main__':
     app.run(debug=True)
