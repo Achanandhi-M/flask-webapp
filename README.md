@@ -69,5 +69,4 @@ python app.py
 3. Set the request method to POST.
 4. Enter the appropriate endpoint URL (e.g., `http://localhost:5000/`).
 5. Add the required form data parameters.
-6. Click on the "Send" button to test the API.
-```
+6. Click on the "Send" button to test the API
