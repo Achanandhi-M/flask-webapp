@@ -20,9 +20,11 @@ def login():
         paswd=request.form.get("pass")
         if name=='John' or name=='Bob' or name=='Jack':
             session['username']=name
+            return jsonify({"message": "Success", "user": name})
             return redirect(url_for('bill'))
         else:
             return "User Not Found :("
+            return jsonify({"message": "User Not Found :("})
 
 
     return render_template("index.html")
