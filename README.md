@@ -27,8 +27,8 @@ python app.py
   - JSON:
     ```json
     {
-        "name": "John",
-        "pass": "password123"
+        "name": {{user}}
+        "pass": {{pass}}
     }
     ```
 - **Output:**
