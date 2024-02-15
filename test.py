@@ -34,7 +34,7 @@ def bill():
         if auth_type.lower() == 'basic':
             username_password = base64.b64decode(auth_credentials).decode('utf-8')
             username, password = username_password.split(':', 1)
-            if username == 'John':
+            if username in ['John', 'Bob','Jack']:
                 data = request.get_json()
                 presentunit = data.get("Present")
                 previousunit = data.get("Previous")
