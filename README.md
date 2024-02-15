@@ -1,3 +1,4 @@
+```markdown
 # Flask Electricity Billing API
 
 ## Introduction
@@ -23,14 +24,19 @@ python app.py
 ### 1. `/` (Login Endpoint)
 - **Method:** POST
 - **Input:**
-  - Form Data:
-    - `name`: User's name
-    - `pass`: User's password
+  - JSON:
+    ```json
+    {
+        "name": {{user}}
+        "pass": {{pass}}
+    }
+    ```
 - **Output:**
   - Success:
     ```json
     {
-        "message": "Success"
+        "message": "Success",
+        "user": "John"
     }
     ```
   - Error:
@@ -43,17 +49,21 @@ python app.py
 ### 2. `/bill` (Bill Endpoint)
 - **Method:** POST
 - **Input:**
-  - Form Data:
-    - `Previous`: Previous meter reading (Units)
-    - `Present`: Current meter reading (Units)
+  - JSON:
+    ```json
+    {
+        "Previous": 50,
+        "Present": 100
+    }
+    ```
 - **Output:**
   - Success:
     ```json
     {
         "message": "Success",
         "user": "John",
-        "total_units_consumed": 100,
-        "total_amount_rupees": 1000
+        "total_units_consumed": 50,
+        "total_amount_rupees": 500
     }
     ```
   - Error:
@@ -68,5 +78,5 @@ python app.py
 2. Create a new request for each endpoint.
 3. Set the request method to POST.
 4. Enter the appropriate endpoint URL (e.g., `http://localhost:5000/`).
-5. Add the required form data parameters.
+5. Add the required JSON parameters in the request body.
 6. Click on the "Send" button to test the API
